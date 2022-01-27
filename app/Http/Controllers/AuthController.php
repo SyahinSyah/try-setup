@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 
 // use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 // use Illuminate\Foundation\Bus\DispatchesJobs;
