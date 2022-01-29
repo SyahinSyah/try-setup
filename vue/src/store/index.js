@@ -1,4 +1,7 @@
 import {createStore} from "vuex";
+import axiosClient from '../axios';
+
+//akan ada duplicate code so we use intercepters function jugak
 
 
 const store = createStore({
@@ -11,29 +14,28 @@ const store = createStore({
     getters:{},
     actions:{
         register({ commit },user) { 
-            return fetch(`http://localhost:8000/api/register`,{
-                headers: {
-                    "Content-Type" : "application/json",
-                    Accept: "application/json",
-                },
-                method : "POST",
-                body : JSON.stringify(user),
+            return axiosClient.post('/register', user)
+            .then(({data}) =>{
+                commit('setUser',data);
+                 return data;
             })
-            .then((res) => res.json())
-            .then((res) => {
-                commit("setUser", res);
-                return res;
-            });
+        },
+        login({ commit },user) { 
+           return axiosClient.post('/login', user)
+           .then(({data}) =>{
+               commit('setUser',data);
+                return data;
+           })
         },
     },
     mutations:{
         logout: state => {
-            state.user.data = {};
             state.user.token = null;
+            state.user.data = {};
         },
         setUser: (state , userData) => {
             state.user.token = userData.token;
-            state.user.data = userData.data;
+            state.user.data = userData.user;
             sessionStorage.setItem('TOKEN', userData.token); //session token kalau refresh still ada
         }
     },

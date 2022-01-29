@@ -46,6 +46,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // dd($request->all());
         $credentials = $request->validate([
             'email' => 'required|email|string|exists:users,email',
             'password' => [
@@ -57,7 +58,7 @@ class AuthController extends Controller
         $remember = $credentials['remember'] ?? false ;
         unset($credentials['remember']);
 
-        if(!Auth::attempt([$credentials,$remember]))
+        if(!Auth::attempt($credentials,$remember))
         {
             return response([
                 'error' => 'The provided credentials are not correct'
