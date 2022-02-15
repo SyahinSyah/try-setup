@@ -144,7 +144,7 @@ import QuestionEditor from "../components/editor/QuestionEditor.vue";
 
 const router = useRouter();
 const route = useRoute();
-const surveyLoading = computed(() => store.state.currentSurvey.loading)
+const surveyLoading = computed(() => store.state.currentSurvey.loading);
 
 
 let model = ref({
@@ -191,7 +191,12 @@ function deleteQuestion(question){
 
 
 function questionChange(question) {
-    model.value.questions = model.value.questions.map(() => {
+
+    if (question.data.options) {
+    question.data.options = [...question.data.options];
+    }
+
+    model.value.questions = model.value.questions.map((q) => {
         if(q.id == question.id){
             return JSON.parse(JSON.stringify(question));
         }
