@@ -16,12 +16,13 @@ class StoreSurveyRequest extends FormRequest
         return true;
     }
 
-    protected function preapraeForValidation()
+    protected function prepareForValidation()
     {
         $this->merge([
             'user_id' => $this->user()->id //current user id
         ]);
     }
+   
 
     /**
      * Get the validation rules that apply to the request.
@@ -32,6 +33,7 @@ class StoreSurveyRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:10000',
+            'image' => 'nullable|string',
             'user_id' => 'exists:users,id',
             'status' => 'required|boolean',
             'description' => 'nullable|string',

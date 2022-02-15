@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use function PHPSTORM_META\map;
+
 class UpdateSurveyRequest extends FormRequest
 {
     /**
@@ -13,7 +15,13 @@ class UpdateSurveyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        $survey = $this->route('survey');
+        if($this->user()->id !== $survey->user_id){
+            return false;
+        } 
+        
+
+        return true; 
     }
 
     /**
@@ -24,7 +32,13 @@ class UpdateSurveyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:100000',
+            'image' => 'nullable|string',
+            'user_id' => 'exits:users,id',
+            'status' => 'required|boolean',
+            'description' => 'nullable|string',
+            'expire_date' => 'nullable|date|after:tomorrow',
+            'questions' => 'array',
         ];
     }
 }
