@@ -213,7 +213,7 @@ const store = createStore({
             state.currentSurvey.data = survey.data;
         },
         setSurveys: (state, surveys ) => {
-            debugger;
+            // debugger;
             state.surveys.data = surveys.data;
         },
         // saveSurvey: (state,survey) => {
