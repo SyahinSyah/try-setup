@@ -24,7 +24,7 @@
 <!-- <pre>
     {{model}}
 </pre> -->
-<form v-else @submit.prevent="saveSurvey">
+<form v-else @submit.prevent="saveSurvey" class="animate-face-in-down">
     <div class="shadow sm:rounded-md sm:overflow-hidden">
 
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
