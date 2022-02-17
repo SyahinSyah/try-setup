@@ -144,6 +144,10 @@ const store = createStore({
     },
     getters:{},
     actions:{
+        saveSurveyAnswer({commit}, {surveyId, answers}){
+            return axiosClient.post(`/survey/${surveyId}/answer`, {answers});
+        }
+        ,
         getSurveys({commit}, {url= null} = {} ){
             url = url || '/survey'
             commit('setSurveysLoading',true)
@@ -152,6 +156,19 @@ const store = createStore({
                 commit("setSurveys",res.data);
                 return res;
             });
+        },
+        getSurveyBySlug({commit} ,slug){
+            commit("setCurrentSurveyLoading", true);
+            return axiosClient.get(`/survey-by-slug/${slug}`)
+            .then((res) => {
+                commit("setCurrentSurvey", res.data);
+                commit("setCurrentSurveyLoading", false);
+                return res;
+            })
+            .catch((err) => {
+                commit("setCurrentSurveyLoading" , false);
+                throw err;
+            })
         },
         deleteSurvey({}, id){
             return axiosClient.delete(`/survey/${id}`);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SurveyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::resource('/survey',\App\Http\Controllers\SurveyController::class); //crud 
 });
 
+Route::get('/survey-by-slug/{survey:slug}', [SurveyController::class, 'showForGuest']);
+Route::post('/survey/{survey}/answer', [SurveyController::class, 'storeAnswer']);
+//kalau hantar pakai id boleh pakai {survey} sahaja. 
 
 Route::post('/register', [AuthController::class , 'register']);
 Route::post('/login', [AuthController::class , 'login']);
