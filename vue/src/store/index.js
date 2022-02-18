@@ -1,3 +1,4 @@
+import { Axios } from "axios";
 import {createStore} from "vuex";
 import axiosClient from '../axios';
 
@@ -125,6 +126,14 @@ const store = createStore({
             data:{},
             token: sessionStorage.getItem('TOKEN'),
         },
+        // dashboard: {
+        //     loading: false, 
+        //     data: {}
+        // },
+        dashboard : {
+            loading: false,
+            data: {},
+        },
         currentSurvey:{
             loading: false,
             data: {}, //will be an object  and actual content
@@ -144,6 +153,19 @@ const store = createStore({
     },
     getters:{},
     actions:{
+        getDashboardData({commit}){
+            commit('dashboardLoading', true)
+            return axiosClient.get(`/dashboard`)
+            .then((res) => {
+                commit('dashboardLoading', false)
+                commit('setDashboardData', res.data)
+                return res;
+            })
+            .catch(error => {
+                commit('dashboardLoading', false)
+                return error;
+            })
+        },
         saveSurveyAnswer({commit}, {surveyId, answers}){
             return axiosClient.post(`/survey/${surveyId}/answer`, {answers});
         }
@@ -227,6 +249,12 @@ const store = createStore({
         }
     },
     mutations:{
+        dashboardLoading: (state, loading) => {
+            state.dashboard.loading = loading;
+        },
+        setDashboardData: (state,data) => {
+            state.dashboard.data = data;
+        },
         setSurveysLoading : (state,loading) => {
             state.surveys.loading = loading;
         },
